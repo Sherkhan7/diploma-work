@@ -4,9 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+psycopg2 = "*"
 django = "*"
 
 [dev-packages]
+pip-autoremove = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.8"
