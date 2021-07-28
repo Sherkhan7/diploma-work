@@ -2,11 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
 
+from account import forms
 
-# Create your views here.
-class LoginFormView(generic.FormView):
+
+class SignInFormView(generic.FormView):
     template_name = 'account/signin.html'
-    # form_class = ContactForm
+    form_class = forms.SignInForm
     success_url = '/account/'
 
     # def form_valid(self, form):
@@ -14,6 +15,11 @@ class LoginFormView(generic.FormView):
     #     # It should return an HttpResponse.
     #     form.send_email()
     #     return super().form_valid(form)
+
+
+class SignUpView(generic.CreateView):
+    template_name = 'account/signup.html'
+    # form_class = forms.SignInForm
 
 
 def login(request):
