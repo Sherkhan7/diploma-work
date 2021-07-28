@@ -1,12 +1,36 @@
 {% extends 'base.html' %}
 
-{% block title %}Log In{% endblock %}
+{% block title %}Sign up{% endblock %}
 
 {% block content %}
-    <h2>Log In</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Log In</button>
-    </form>
+    <div class="container my-3">
+        <form class="row gx-3 w-50 mx-auto" method="post" novalidate>
+            {% csrf_token %}
+            <h2>Registratsiya</h2>
+
+            {% if form.non_field_errors %}
+                <div class="invalid-feedback d-block">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="col-12 my-2">
+                    {{ field.label_tag }}
+                    <div class="input-group">
+                        {% if field == form.username %}
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                        {% endif %}
+                        {{ field }}
+                    </div>
+                    {% if field.errors %}
+                        <div class="invalid-feedback d-block">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="col-12 ">
+                <button type="submit" class="btn btn-primary w-100">Ro'yxatdan o'tish</button>
+            </div>
+        </form>
+    </div>
+
 {% endblock %}
