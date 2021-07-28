@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up Form by Colorlib</title>
+    <title>{% block title %}{% endblock %}</title>
 
     <!-- Font Icon -->
     <link rel="stylesheet" href="{% static 'account/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
@@ -15,8 +15,7 @@
 <body>
 
 <div class="main">
-    {% block signup %}{% endblock %}
-    {% block signin %}{% endblock %}
+    {% block signup-signin-content %}{% endblock %}
 </div>
 
 <script src="{% static 'account/vendor/jquery/jquery.min.js' %}"></script>

@@ -40,12 +40,12 @@ DJANGO_APPS = [
 ]
 
 CREATED_APPS = [
-    'account.apps.AccountConfig'
+    'account.apps.AccountConfig',
 ]
 
 THIRD_PARTY_APPS = []
 
-ISTALLED_APPS = DJANGO_APPS + CREATED_APPS + THIRD_PARTY_APPS
+INSTALLED_APPS = DJANGO_APPS + CREATED_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,8 +62,7 @@ ROOT_URLCONF = 'diploma_work.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,7 +128,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
