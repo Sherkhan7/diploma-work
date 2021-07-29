@@ -5,8 +5,8 @@ from account import views
 
 app_name = 'account'
 urlpatterns = [
-    path('', RedirectView.as_view(pattern_name='signin')),
-    path('sign_in/', views.SignInFormView.as_view(), name='signin'),
-    path('sign_up/', views.SignUpView.as_view(), name='signup'),
+    path('', RedirectView.as_view(pattern_name='account:signin')),
+    path('sign-in/', views.SignInFormView.as_view(), name='signin'),
+    path('sign-up/', views.SignUpView.as_view(), name='signup'),
     # path('login/', views.login, name='login_form'),
 ]

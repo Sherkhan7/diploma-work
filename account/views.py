@@ -7,19 +7,26 @@ from account import forms
 
 class SignInFormView(generic.FormView):
     template_name = 'account/signin.html'
+    # success_url = '/account/'
     form_class = forms.SignInForm
-    success_url = '/account/'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['form_heading'] = 'Sign in to account'
+        return context
 
     # def form_valid(self, form):
     #     # This method is called when valid form data has been POSTed.
     #     # It should return an HttpResponse.
-    #     form.send_email()
-    #     return super().form_valid(form)
+    #     print(form.is_valid())
+    #     # return super().form_valid(form)
 
 
 class SignUpView(generic.CreateView):
     template_name = 'account/signup.html'
-    # form_class = forms.SignInForm
+    # form_class = forms.SignUpForm
 
 
 def login(request):
