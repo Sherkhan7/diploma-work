@@ -15,3 +15,4 @@ class User(AbstractUser):
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=False, null=True)
 
     USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
