@@ -11,7 +11,7 @@ class User(AbstractUser):
         (STUDENT, 'Student'),
     )
 
-    email = models.EmailField(_('email address'), blank=False, unique=True)
+    email = models.EmailField(_('email address'), blank=True, unique=True)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=False, null=True)
 
     USERNAME_FIELD = 'email'
