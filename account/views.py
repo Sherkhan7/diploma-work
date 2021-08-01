@@ -18,19 +18,17 @@ class SignInFormView(generic.FormView):
         context['form_heading'] = 'Sign in to account'
         return context
 
-
-class SignUpView(generic.CreateView):
-    template_name = 'account/signup.html'
-    model = User
-
-    # form_class = forms.SignUpForm
-
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
         print('weqwewq')
         print(form.is_valid(), 'ddddddddddddddddddd')
         return super().form_valid(form)
+
+
+class SignUpView(generic.CreateView):
+    form_class = forms.SignUpForm
+    template_name = 'account/signup.html'
 
 # def login(request):
 #     return HttpResponse('login')
