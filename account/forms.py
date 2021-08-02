@@ -5,8 +5,8 @@ from account import models as app_models
 
 
 class DivErrorList(ErrorList):
-    def __init__(self, initlist=None, error_class='dsdsd'):
-        super().__init__(initlist, error_class)
+    def __init__(self, initlist=None, error_class='list'):
+        super(DivErrorList, self).__init__(initlist, error_class)
 
     def __str__(self):
         return self.as_divs()
@@ -17,7 +17,7 @@ class DivErrorList(ErrorList):
         return format_html(
             '<div class="{}">{}</div>',
             self.error_class,
-            format_html_join('', '<div class="error">{}</div>', ((e,) for e in self))
+            format_html_join('', '<div class="error">* {}</div>', ((e,) for e in self))
         )
 
 
@@ -36,23 +36,31 @@ class SignInForm(forms.Form):
 
 
 class SignUpForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        kwargs_new = {'error_class': DivErrorList}
-        kwargs_new.update(kwargs)
-        super(SignUpForm, self).__init__(*args, **kwargs_new)
+    """
+        def __init__(self, *args, **kwargs):
+            kwargs_new = {'error_class': DivErrorList}
+            kwargs_new.update(kwargs)
+            super().__init__(*args, **kwargs_new)
+    """
 
     # first_name = forms.CharField(max_length=30, required=True, help_text='Optional.')
     # last_name = forms.CharField(max_length=30, required=True, help_text='Optional.')
     # email = forms.EmailField(max_length=30, required=True, help_text='Required. Inform a valid email address.')
-    password1 = forms.CharField(label='Password', required=False, widget=forms.PasswordInput(attrs={
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={
         'placeholder': _('Password')
     }))
-    password2 = forms.CharField(label='Repeat Password', required=False, widget=forms.PasswordInput(attrs={
+    password2 = forms.CharField(label='Repeat Password', widget=forms.PasswordInput(attrs={
         'placeholder': _('Repeat your password')
     }))
-    username = forms.CharField(required=False, widget=forms.TextInput(attrs={
+    username = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': _('Username')
     }))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'placeholder': _('Your email')
+    }))
+    role = forms.ChoiceField(label='User type', choices=app_models.User.ROLE_CHOICES, widget=forms.Select(attrs={
+        'class': 'select'}
+    ))
 
     class Meta:
         model = app_models.User
@@ -64,10 +72,8 @@ class SignUpForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={
                 'placeholder': _('Last name')
             }),
-            'username': forms.TextInput(attrs={
-                'placeholder': _('Username')
-            }),
-            'email': forms.TextInput(attrs={
-                'placeholder': _('Your email')
-            }),
         }
+
+    def clean(self):
+        super(SignUpForm, self).clean()
+        print(self.cleaned_data)

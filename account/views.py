@@ -30,5 +30,11 @@ class SignUpView(generic.CreateView):
     form_class = forms.SignUpForm
     template_name = 'account/signup.html'
 
+
+class AccountDetailView(generic.DetailView):
+    model = User
+    slug_field = 'username'
+    template_name = 'account/accout.html'
+
 # def login(request):
 #     return HttpResponse('login')

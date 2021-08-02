@@ -8,5 +8,6 @@ urlpatterns = [
     path('', RedirectView.as_view(pattern_name='account:signin')),
     path('sign-in/', views.SignInFormView.as_view(), name='signin'),
     path('sign-up/', views.SignUpView.as_view(), name='signup'),
+    path('account/<str:slug>/', views.AccountDetailView.as_view(), name='detail'),
     # path('login/', views.login, name='login_form'),
 ]
