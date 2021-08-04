@@ -44,6 +44,7 @@ class SignUpForm(forms.ModelForm):
             kwargs_new.update(kwargs)
             super().__init__(*args, **kwargs_new)
     """
+    use_required_attribute = False
 
     # first_name = forms.CharField(max_length=30, required=True, help_text='Optional.')
     # last_name = forms.CharField(max_length=30, required=True, help_text='Optional.')

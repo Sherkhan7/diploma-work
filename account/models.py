@@ -8,6 +8,7 @@ class User(AbstractUser):
     PROFESSOR = 1
     STUDENT = 2
     ROLE_CHOICES = (
+        (None, '----'),
         (PROFESSOR, 'Professor'),
         (STUDENT, 'Student'),
     )
