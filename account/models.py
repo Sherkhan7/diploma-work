@@ -15,10 +15,10 @@ class User(AbstractUser):
     first_name = models.CharField(_('first name'), max_length=150)
     last_name = models.CharField(_('last name'), max_length=150)
     email = models.EmailField(_('email address'), unique=True)
-    role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES)
+    role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     def get_absolute_url(self):
-        return reverse('account:detail', kwargs={'username': self.username})
+        return reverse('account:detail', kwargs={'slug': self.username})

@@ -1,6 +1,8 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.forms.utils import ErrorList, format_html, format_html_join
+from django.core.exceptions import ValidationError
+
 from account import models as app_models
 
 
@@ -75,5 +77,11 @@ class SignUpForm(forms.ModelForm):
         }
 
     def clean(self):
-        super(SignUpForm, self).clean()
-        print(self.cleaned_data)
+        cleaned_data = super(SignUpForm, self).clean()
+        password1 = cleaned_data['password1']
+        password2 = cleaned_data['password2']
+
+        if password1 != password2:
+            raise ValidationError("Password does not match")
+
+        return cleaned_data
