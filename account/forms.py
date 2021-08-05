@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.forms.utils import ErrorList, format_html, format_html_join
-from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm
 
 from account import models as app_models
 
@@ -37,37 +37,37 @@ class SignInForm(forms.Form):
     }))
 
 
-class SignUpForm(forms.ModelForm):
+class SignUpForm(UserCreationForm):
     """
         def __init__(self, *args, **kwargs):
             kwargs_new = {'error_class': DivErrorList}
             kwargs_new.update(kwargs)
             super().__init__(*args, **kwargs_new)
     """
-    use_required_attribute = False
 
-    # first_name = forms.CharField(max_length=30, required=True, help_text='Optional.')
-    # last_name = forms.CharField(max_length=30, required=True, help_text='Optional.')
-    # email = forms.EmailField(max_length=30, required=True, help_text='Required. Inform a valid email address.')
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={
-        'placeholder': _('Password')
-    }))
-    password2 = forms.CharField(label='Repeat Password', widget=forms.PasswordInput(attrs={
-        'placeholder': _('Repeat your password')
-    }))
-    username = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': _('Username')
-    }))
-    email = forms.EmailField(widget=forms.EmailInput(attrs={
-        'placeholder': _('Your email')
-    }))
-    role = forms.ChoiceField(label='User type', choices=app_models.User.ROLE_CHOICES, widget=forms.Select(attrs={
-        'class': 'select'}
-    ))
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields[self._meta.model.USERNAME_FIELD].widget.attrs.pop('autofocus', None)
+
+    use_required_attribute = False
+    password1 = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput(attrs={
+            'autocomplete': 'new-password',
+            'placeholder': _('Your password')
+        }),
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'autocomplete': 'new-password',
+            'placeholder': _("Password confirmation")
+        }),
+        strip=False,
+    )
 
     class Meta:
         model = app_models.User
-        fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
+        fields = ('first_name', 'last_name', 'username', 'email', 'role')
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'placeholder': _('First name')
@@ -75,14 +75,10 @@ class SignUpForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={
                 'placeholder': _('Last name')
             }),
+            'username': forms.TextInput(attrs={
+                'placeholder': _('Username')
+            }),
+            'email': forms.EmailInput(attrs={
+                'placeholder': _('Your email'),
+            }),
         }
-
-    def clean(self):
-        cleaned_data = super(SignUpForm, self).clean()
-        password1 = cleaned_data['password1']
-        password2 = cleaned_data['password2']
-
-        if password1 != password2:
-            raise ValidationError("Password does not match")
-
-        return cleaned_data
