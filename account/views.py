@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.contrib.auth import login
+from django.http import HttpResponseRedirect
 from django.views import generic
 
 from account import forms
@@ -8,7 +8,6 @@ from account.models import User
 
 class SignInFormView(generic.FormView):
     template_name = 'account/signin.html'
-    # success_url = '/account/'
     form_class = forms.SignInForm
 
     def get_context_data(self, **kwargs):
@@ -18,17 +17,16 @@ class SignInFormView(generic.FormView):
         context['form_heading'] = 'Sign in to account'
         return context
 
-    def form_valid(self, form):
-        # This method is called when valid form data has been POSTed.
-        # It should return an HttpResponse.
-        print('weqwewq')
-        print(form.is_valid(), 'ddddddddddddddddddd')
-        return super().form_valid(form)
-
 
 class SignUpView(generic.CreateView):
     form_class = forms.SignUpForm
     template_name = 'account/signup.html'
+
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        user = form.save()
+        login(self.request, user)
+        return HttpResponseRedirect(user.get_absolute_url())
 
 
 class AccountDetailView(generic.DetailView):
